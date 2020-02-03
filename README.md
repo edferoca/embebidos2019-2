@@ -11,6 +11,14 @@ github para la materia embebidos 2019-2
     
     3.[usando los perifericos de la blackice]
     
+    4.[Codigo Arduino para sensores]
+        
+        4.1 [RFID]
+        
+        4.2 [Celda de carga]
+    
 * [ESP32]
     
     1.[Instalar MicroPython en ESP32](https://github.com/edferoca/embebidos2019-2/wiki/Instalar-MicroPython-en-ESP32)
+
+* [Arduino]
