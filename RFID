@@ -26,6 +26,7 @@ void loop() {
                           Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
                           Serial.print(mfrc522.uid.uidByte[i], HEX);
 
+                          // Guardar los dos bytes menos significativos para su posterior envio
                           if (i==3){RFID=mfrc522.uid.uidByte[i];}
                              
                   } 
