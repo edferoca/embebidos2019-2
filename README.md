@@ -13,7 +13,7 @@ github para la materia embebidos 2019-2
     
     4.[Codigo Arduino para sensores]
         
-        4.1 [RFID].(https://github.com/edferoca/embebidos2019-2/blob/master/RFID)
+        4.1 
         
         4.2 [Celda de carga]
     
