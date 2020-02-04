@@ -1,4 +1,4 @@
-# embebidos2019-2
+﻿# embebidos2019-2
 github para la materia embebidos 2019-2
 #**Wiki**
 
@@ -22,3 +22,4 @@ github para la materia embebidos 2019-2
     1.[Instalar MicroPython en ESP32](https://github.com/edferoca/embebidos2019-2/wiki/Instalar-MicroPython-en-ESP32)
 
 * [Arduino]
+* [Raspberry Pi 3]
