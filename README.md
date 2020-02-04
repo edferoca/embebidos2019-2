@@ -23,3 +23,8 @@ github para la materia embebidos 2019-2
 
 * [Arduino]
 * [Raspberry Pi 3]
+     1.[Instalar Raspbian en una tarjeta SD]
+
+     2.[Configurar la Raspberry Pi 3 como servidor web]
+
+     3.[Almacenamiento en una base de datos]
