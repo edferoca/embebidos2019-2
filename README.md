@@ -21,7 +21,7 @@ github para la materia embebidos 2019-2
     
     1.[Instalar MicroPython en ESP32](https://github.com/edferoca/embebidos2019-2/wiki/Instalar-MicroPython-en-ESP32)
     
-    2.[Conociendo los archivos boot.py y main.py] https://github.com/edferoca/embebidos2019-2/wiki/Conociendo-el-archivo-boot.py-y-main.py)
+    2.[Conociendo los archivos boot.py y main.py](https://github.com/edferoca/embebidos2019-2/wiki/Conociendo-el-archivo-boot.py-y-main.py)
 
 * [Arduino]
 * [Raspberry Pi 3]
