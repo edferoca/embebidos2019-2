@@ -4,7 +4,10 @@
 #define RST_PIN  9    //Pin 9 para el reset del RC522
 #define SS_PIN  53   //Pin 10 para el SS (SDA) del RC522
 MFRC522 mfrc522(SS_PIN, RST_PIN); //Creamos el objeto para el RC522
-byte RFID;
+byte RFID[4];
+byte Transmilenio1[4] = {0xAA, 0xAA, 0xAA, 0xAA}; // Código PIC del transmilenio
+byte Transmilenio2[4] = {0xBB, 0xBB, 0xBB, 0xBB}; // Código PIC del transmilenio
+byte UartOut = 0x00;
 
 void setup() {
   Serial.begin(9600); //Iniciamos la comunicación  serial
@@ -25,15 +28,25 @@ void loop() {
                   for (byte i = 0; i < mfrc522.uid.size; i++) {
                           Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
                           Serial.print(mfrc522.uid.uidByte[i], HEX);
-
-                          // Guardar los dos bytes menos significativos para su posterior envio
-                          if (i==3){RFID=mfrc522.uid.uidByte[i];}
-                             
+                          RFID[i] = mfrc522.uid.uidByte[i]; // Se guerda el código PIC
                   } 
-                  Serial.println();
-                  Serial.println(RFID, HEX);
+                  if(comparecode(RFID,Transmilenio1))
+                    UartOut = 0x0F;  // Señal de control mandada a la BlackIce Mx
+                  else if(comparecode(RFID,Transmilenio2))
+                    UartOut = 0xF0;  // Señal de control mandada a la BlackIce Mx
+                  else
+                    Uartout = 0x00;
                   // Terminamos la lectura de la tarjeta  actual
                   mfrc522.PICC_HaltA();         
             }      
   }
+}
+
+ boolean comparecode(byte array1[],byte array2[]) // Función para comparar los cuatro bytes del código escaneado con los almacenados previamente
+{
+  if(array1[0] != array2[0])return(false);
+  if(array1[1] != array2[1])return(false);
+  if(array1[2] != array2[2])return(false);
+  if(array1[3] != array2[3])return(false);
+  return(true);
 }
