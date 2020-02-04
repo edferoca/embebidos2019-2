@@ -30,4 +30,4 @@ github para la materia embebidos 2019-2
 
      3.[Almacenamiento en una base de datos]
      
-*[Aplicación paara celular]
+* [Aplicación paara celular]
