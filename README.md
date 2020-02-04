@@ -24,7 +24,7 @@ github para la materia embebidos 2019-2
 * [Arduino]
 * [Raspberry Pi 3]
 
-     1.[Instalar Raspbian en la Raspberry Pi 3]
+     1.[Instalar Raspbian en la Raspberry Pi 3](https://github.com/edferoca/embebidos2019-2/wiki/Istalaci%C3%B3n-Raspbian-en-la-Raspberry-Pi-3)
 
      2.[Configurar la Raspberry Pi 3 como servidor web]
 
