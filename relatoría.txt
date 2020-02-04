@@ -1,0 +1,94 @@
+﻿RELATORÍA MICROCONTROLADOR
+
+Una de los requisitos de la entrega del proyecto final era incluir un microcontrolador. Se tomó la sugerencia del ESP32, ya que es un microcontrolador de bajo costo y consumo y que tiene integrada la tecnología Wifi, la cual será una de las principales ventajas que se usará con este microcontrolador.
+
+Para trabajar el ESP32 es necesario instarlar un sistema operativo que nos permita comunicarnos y aprovechar sus caracteríticas, se usa mycropython debido a que presenta muchas ventajas. MicroPython es una versión de pyhton 3 optimizada para microcontroladores y sus librerías heredadas de Python no serán de utilidad.
+
+Para el proyecto se trabajaron dos archivos Python boot.py y main.py. Cada uno de ellos se especificará a continuación:
+
+    • Boot.py :
+
+Este archivo se ejecuta una vez cuando encedemos el microcontrolador. Veremos que contiene este archivo. Lo primero es incluir las librerías que nos sean útiles en función de lo que vamos a hacer. El archivo boot.py se ha escogido para cear nuestro ambiente de trabajo y decirle al ESP32 que funcione como access point. 
+
+    1. import network : Proporciona controladores de red y configuración de enrutamiento.
+    2. from machine import Pin :  Con from machine nos permite acceder al hardware y por lo tanto a uno de los pines. 
+    3. import webrepl : REPL ()
+
+Una vez tengamos estas librerías escribimos nuestro código ( No olvidar que estamos usando python)
+
+
+led = Pin(2, Pin.OUT)
+led.on()
+ap = network.WLAN(network.AP_IF)
+ap.active(True)
+ap.config(essid='ESP32_Trasmilenio')
+ap.config(authmode=3, password='12345678')
+led.off()
+
+Llamamos led al pin que se encuentra en la posición 2 según el archivo de pines del ESP32 que es un led precisamente y lo usamos como indicador de que alguna función se llevo a cabo con éxito y lo establecemos como un pin de salida a través de Pin(2, Pin.OUT). 
+
+A través de la librería network se establece un access point con su nombre y contraseña. Para saber si se creo correctamente la red se enciende un led al comenzar la instrucción y luego se paga cuando finalice exitosamente. La ventaja de trabajar con estas librerías es que tiene las funciones específicas ya desarrolladas, lo cual nos ahorra tiempo. Por último iniciamos nuestro REPL mediante la función:
+
+webrepl.start()
+
+Estas son las funciones que se implementaron en el archivo boot.py.
+    • Main.py: En este archivo incluiremos la principal función a desarrollar por el microcontrolador, la comunicación con la FPGA a través del protocolo UART y la comunicación con el servidor montado en la raspberry a través del protocolo MQTT.
+Tal como lo hicimos en el archivo boot.py en el main incluimos como encabezado las librerías útiles para las funciones a desarrollar. 
+
+from machine import Pin
+from machine import UART
+import esp
+import utime
+import network
+import machine
+from umqttsimple import MQTTClient
+import ubinascii
+
+Algunas de estas librerías ya fueron explicadas porque están en el archivo boot.py. 
+
+Una de las librerías nuevas es from umqttsimple import MQTTClient , el cual nos permitirá comunicarnos con la raspberry que es nuestro servidor y crear un tópico, este tópico es la información que dejaremos de la medida de los transmilenios a nuestra base de datos.
+
+pin1 = None
+pin1 = Pin(2, Pin.OUT)
+pin1.value(1)
+uart = UART(1, 115200)    # init with given baudrate
+pin1.value(0)   
+esp.osdebug(None)       # turn off vendor O/S debugging messages
+pin1.value(1)                     
+uart.init(115200, bits=8, parity=None, stop=1, tx=17, rx=16)
+
+En la sección de código mostrada anteriormente estamos creando el uart con todas las funciones heradadas de python, la variable pin1  de nuevo se usa como indicador de que una tarea fue exitosa, en este caso, la creación del objeto uart y su inicialización. El objeto uart tiene dos argumentos, el que nos interesa es el baudrate, el cual es 115200 debido a que la ESP32 maneja esta tasa. La última línea de esta sección nos permite inicializar el objeto uart con los parámetros que nos indica el constructor; tx y rx se puede tomar de los valores del archivo de pines del microcontrolador.  Hay una línea importante que compete al uart y su uso, por defecto los pines que se usan en el proyecto para el protocolo uart, el microcontrolador los usa para mensajes del sistema, por lo que la línea esp.osdebug(None) libera a ese uart de esas tareas y lo deja disponible para nuestro uso.
+
+La siguiente sección del main es dedicada a mqtt, comunicación Machine to Machine, 
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect('Transmilenio','transmilenio')
+utime.sleep(1)
+print(wlan.ifconfig())
+server = '192.168.0.15'
+port=1880
+user=''
+passwd=''
+CLIENT_ID = ubinascii.hexlify(machine.unique_id())
+mqtt = MQTTClient(CLIENT_ID,server,port,user,passwd)
+pin1.value(0)
+
+Ahora vemos nuevas funciones del wifi, y esta es una ventaja que ofrece el ESP32 que sirve tanto para crear una red, como para conectarse a una red Wifi. En este caso nos conectamos a la red puesta en las Raspberry, dónde se tiene la base de datos. Una vez conectados a este red creamos un módulo mqtt con los parámetros server, port, user, passwd, estos últimos dos se dejan vacíos para no causar complicaciones en la comunicación. Por último se  crea un cliente mqtt con el fin de enviar la información obtenida de la FPGA mediante el uart.
+
+La última sección del código implementa un bucle que se quiere ejecutar siempre con el fin de monitorear el canal del uart, una vez se tenga algún dato proveniente de este canal entonces publicamos este dato con mqtt a la raspberry.
+
+while True==True:
+	pin1.value(1)
+	val = uart.read()
+	if val != None:
+		print(val)
+		mqtt.connect()
+		mqtt.publish('Datos',val)
+		mqtt.disconect()
+
+	else:
+		utime.sleep(1)
+	pin1.value(0)
+
+COMPLICACIONES:
+A través del proyecto se tuvo una mayor complicación, y fue ejecutar un archivo main dañado. La comunicación con el microcontrolador mediante webrepl o mediante puerto serial no servía porque el ESP32 siempre estaba ejecutando una orden y no atendía a otras funciones. Este problema se resolvió y se explica en una guía que se encuentra en este GitHub.
