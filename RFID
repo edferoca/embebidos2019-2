@@ -35,7 +35,7 @@ void loop() {
                   else if(comparecode(RFID,Transmilenio2))
                     UartOut = 0xF0;  // Señal de control mandada a la BlackIce Mx
                   else
-                    Uartout = 0x00;
+                    UartOut = 0x00;
                   // Terminamos la lectura de la tarjeta  actual
                   mfrc522.PICC_HaltA();         
             }      
