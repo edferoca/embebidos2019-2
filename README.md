@@ -21,7 +21,6 @@ github para la materia embebidos 2019-2
     
     2.[Conociendo los archivos boot.py y main.py](https://github.com/edferoca/embebidos2019-2/wiki/Conociendo-el-archivo-boot.py-y-main.py)
 
-* [Arduino]
 * [Raspberry Pi 3]
 
      1.[Instalación Raspbian en la Raspberry Pi 3](https://github.com/edferoca/embebidos2019-2/wiki/Istalaci%C3%B3n-Raspbian-en-la-Raspberry-Pi-3)
