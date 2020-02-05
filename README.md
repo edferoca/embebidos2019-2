@@ -31,4 +31,4 @@ github para la materia embebidos 2019-2
      
 * [Aplicación paara celular]
 
-* [Comunicacion]
+* [Comunicacion](https://github.com/edferoca/embebidos2019-2/wiki/Comunicacion)
