@@ -32,3 +32,6 @@ github para la materia embebidos 2019-2
 * [Aplicación para celular](https://github.com/lolelv/embebidos2019-2/wiki/Creaci%C3%B3n-de-una-APP-para-celular-con-MIT-APP-INVENTOR)
 
 * [Comunicacion](https://github.com/edferoca/embebidos2019-2/wiki/Comunicacion)
+
+* [Diseño del prototipo](https://github.com/edferoca/embebidos2019-2/wiki/Dise%C3%B1o-del-prototipo)
+
